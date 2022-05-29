@@ -4,7 +4,7 @@ import * as cheerio from 'cheerio';
 import cors from 'cors';
 import ScrapManager from './ScrapManager.js';
 import dotenv from 'dotenv';
-
+import fs from 'fs';
 
 const app = express();
 
@@ -30,10 +30,13 @@ app.get('/', async (req, res) => {
 
     const page = await browser.newPage();
     await page.emulate(Ipad);
-    
+     
     const response = await page.goto(req.query.link, { waitUntil: 'load'});
     // await page.screenshot({ path: './screenshot.png' });
-
+    const stream = fs.createWriteStream('./result.html');
+    stream.once('open', async function () {
+        stream.end(await response.text());
+    })
     const $ = cheerio.load(await response.text());
     const data = ScrapManager(req.query.link, $);
 
