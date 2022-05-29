@@ -45,9 +45,9 @@ app.get('/', async (req, res) => {
 
     const $ = cheerio.load(await response.text());
     const data = ScrapManager(req.query.link, $);
+    console.log(await response.json())
 
     await browser.close();
-    console.log(response.json())
     res.send({ 'content': data });
 });
 
