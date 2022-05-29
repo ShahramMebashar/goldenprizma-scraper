@@ -33,11 +33,11 @@ app.get('/', async (req, res) => {
     const page = await browser.newPage();
 
     const response = await page.goto(req.query.link, { waitUntil: 'load'});
-    // await page.screenshot({ path: './screenshot.png' });
-    await page.waitForTimeout(2000)
+    await page.screenshot({ path: './screenshot.png' });
+
     const $ = cheerio.load(await response.text());
     const data = ScrapManager(req.query.link, $);
-    console.log(JSON.stringify(await response.text()));
+
     await browser.close();
     res.send({ 'content': data });
 });
