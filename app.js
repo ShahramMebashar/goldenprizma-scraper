@@ -30,7 +30,11 @@ app.get('/', async (req, res) => {
 
     const page = await browser.newPage();
     await page.emulate(Ipad);
-    
+    await page.pdf({
+        path: "./mypdf.pdf",
+        format: "A4",
+        printBackground: true
+    }); 
     const response = await page.goto(req.query.link, { waitUntil: 'load'});
     const $ = cheerio.load(await response.text());
     const data = ScrapManager(req.query.link, $);
