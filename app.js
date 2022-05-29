@@ -26,13 +26,13 @@ app.get('/', async (req, res) => {
             executablePath: process.env.CHROMIUM_PATH,
             args: [ '--disable-gpu', '--disable-setuid-sandbox', '--no-sandbox', '--no-zygote' ],
      })
-     : await puppeteer.launch({ headless: false });
+     : await puppeteer.launch({ args: ['--no-sandbox'] });
 
     const page = await browser.newPage();
     await page.emulate(Ipad);
     
     const response = await page.goto(req.query.link, { waitUntil: 'load'});
-    await page.screenshot({ path: './screenshot.png' });
+    // await page.screenshot({ path: './screenshot.png' });
 
     const $ = cheerio.load(await response.text());
     const data = ScrapManager(req.query.link, $);
