@@ -1,10 +1,10 @@
-const express =require('express');
-const puppeteer =require('puppeteer-extra');
-const cheerio =require('cheerio');
-const cors =require('cors');
-const ScrapManager =require('./ScrapManager.js');
-const dotenv =require('dotenv');
-const StealthPlugin =require('puppeteer-extra-plugin-stealth');
+const express = require('express');
+const puppeteer = require('puppeteer-extra');
+const cheerio = require('cheerio');
+const cors = require('cors');
+const ScrapManager = require('./ScrapManager.js');
+const dotenv = require('dotenv');
+const stealth = require('puppeteer-extra-plugin-stealth');
 
 const app = express();
 
@@ -13,7 +13,7 @@ dotenv.config('./.env');
 app.use(cors({
     origin: '*'
 }));
-puppeteer.use(StealthPlugin());
+puppeteer.use(stealth());
 
 // const Ipad = puppeteer.devices['iPad Pro 11 landscape'];
 
@@ -25,9 +25,18 @@ app.get('/', async (req, res) => {
         await puppeteer.launch({ 
             headless: true,
             executablePath: process.env.CHROMIUM_PATH,
+            ignoreHTTPSErrors: true,
+            args: [
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-sync",
+                "--ignore-certificate-errors",
+                "--lang=en-US,en;q=0.9",
+            ],
+            defaultViewport: { width: 1366, height: 768 },
      })
      : await puppeteer.launch({  
-        headless: true,
+        headless: false,
     });
 
     const page = await browser.newPage();
