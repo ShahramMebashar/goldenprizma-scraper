@@ -34,6 +34,11 @@ app.get('/', async (req, res) => {
 
     const page = await browser.newPage();
     // await page.emulate(Ipad);
+    page.setExtraHTTPHeaders({
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Accept-Language': 'en-US,en;q=0.9,en;q=0.8'
+    })
+    page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36');
 
     const response = await page.goto(req.query.link, { waitUntil: 'load'});
     // await page.screenshot({ path: './screenshot.png' });
