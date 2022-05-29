@@ -47,7 +47,8 @@ app.get('/', async (req, res) => {
     const data = ScrapManager(req.query.link, $);
 
     await browser.close();
-    res.send({ 'content': response.json() });
+    console.log(response.json())
+    res.send({ 'content': data });
 });
 
 const PORT = process.env.PORT || 3000
