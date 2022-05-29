@@ -22,21 +22,21 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 app.get('/', async (req, res) => {
     const browser  = process.env.APP_MODE == "production" ? 
         await puppeteer.launch({ 
-            // headless: true,
+            headless: false,
             executablePath: process.env.CHROMIUM_PATH,
             args: [ '--disable-gpu', '--disable-setuid-sandbox', '--no-sandbox', '--no-zygote' ],
      })
-     : await puppeteer.launch({ args: ['--no-sandbox'] });
+     : await puppeteer.launch({  
+        headless: false,
+        args: [ '--disable-gpu', '--no-sandbox',]
+    });
 
     const page = await browser.newPage();
     await page.emulate(Ipad);
      
     const response = await page.goto(req.query.link, { waitUntil: 'load'});
     // await page.screenshot({ path: './screenshot.png' });
-    const stream = fs.createWriteStream('./result.html');
-    stream.once('open', async function () {
-        stream.end(await response.text());
-    })
+
     const $ = cheerio.load(await response.text());
     const data = ScrapManager(req.query.link, $);
 
