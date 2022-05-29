@@ -1,7 +1,7 @@
-import stradivarius from "./scrapers/stradivarius.js";
-import zara from "./scrapers/zara.js";
+const stradivarius = require("./scrapers/stradivarius.js");
+const zara = require("./scrapers/zara.js");
 
-export default function (link, cheerio) {
+module.exports = function (link, cheerio) {
     const scrapers = {
         'stradivarius.com': stradivarius,
         'zara.com': zara

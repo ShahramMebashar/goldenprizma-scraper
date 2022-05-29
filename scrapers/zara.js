@@ -1,4 +1,4 @@
-export default function (cheerio) {
+module.exports =  function (cheerio) {
     let name = cheerio('[property="og:title"]').attr('content');
 
     let price = cheerio('.product-detail-info__price-amount .price-current__amount').text();

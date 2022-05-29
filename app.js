@@ -1,10 +1,10 @@
-import express from 'express'
-import puppeteer from 'puppeteer-extra';
-import * as cheerio from 'cheerio';
-import cors from 'cors';
-import ScrapManager from './ScrapManager.js';
-import dotenv from 'dotenv';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+const express =require('express');
+const puppeteer =require('puppeteer-extra');
+const cheerio =require('cheerio');
+const cors =require('cors');
+const ScrapManager =require('./ScrapManager.js');
+const dotenv =require('dotenv');
+const StealthPlugin =require('puppeteer-extra-plugin-stealth');
 
 const app = express();
 
