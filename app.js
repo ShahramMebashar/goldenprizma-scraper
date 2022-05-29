@@ -14,7 +14,7 @@ app.use(cors({
     origin: '*'
 }));
 puppeteer.use(StealthPlugin());
-console.log(StealthPlugin().availableEvasions)
+
 // const Ipad = puppeteer.devices['iPad Pro 11 landscape'];
 
 app.use(express.json()) // for parsing application/json
@@ -37,7 +37,7 @@ app.get('/', async (req, res) => {
     await page.waitForTimeout(2000)
     const $ = cheerio.load(await response.text());
     const data = ScrapManager(req.query.link, $);
-
+    console.log(JSON.stringify(await response.text()));
     await browser.close();
     res.send({ 'content': data });
 });
