@@ -5,15 +5,23 @@ export default function (cheerio) {
     price = price.toString().replace(/[^0-9\.]/ig, ''); // normalize price - remove none digit letters i.e 400.2 TL => 400.2
 
     const image = cheerio('[property="og:image"]').attr('content');
-    const productInfo = cheerio('.product-detail-selected-color.product-detail-color-selector__selected-color-name')
-        .text()
-        .split('|');
-
+    let productInfo = cheerio('.product-detail-selected-color.product-detail-color-selector__selected-color-name')
+    .text()
+    .split('|');
+    
     let color, code;
-
+    productInfo = productInfo.filter(Boolean);
+    if(productInfo.length == 0) {
+       productInfo = cheerio('.product-detail-selected-color.product-detail-info__color')
+       .text()
+       .split('|');
+    }
+    
     if (productInfo.length > 0) {
-        color = productInfo[0].replace(/\s+/, '');
-        code = productInfo[1].replace(/\s+/, '');
+        color = productInfo[0].toString().trim();
+        if(productInfo.length > 1) {
+            code = productInfo[1].toString().trim();
+        }
         name = `${name} ${code}`;
     }
     const categories = {
@@ -27,7 +35,7 @@ export default function (cheerio) {
         .toString()
         .replace(/[^a-zA-Z]/ig, '')
         .toLowerCase();
-    console.log(category);
+
     return {
         name,
         code,
@@ -35,6 +43,6 @@ export default function (cheerio) {
         image,
         color,
         productInfo,
-        parentCategory: categories[category]
+        parentCategory: categories[category],
     };
 }
