@@ -33,7 +33,6 @@ app.get('/', async (req, res) => {
                 "--ignore-certificate-errors",
                 "--lang=en-US,en;q=0.9",
             ],
-            defaultViewport: { width: 1366, height: 768 },
      })
      : await puppeteer.launch({  
         headless: false,
